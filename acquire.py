@@ -3,11 +3,9 @@ from bs4 import BeautifulSoup
 import os
 import pandas as pd
 import numpy as np
-import re
-
 
 def get_blog_articles(use_cache=True):
-    
+
     # establish a filename for the local csv
     filename = 'codeup_blog_articles.csv'
     
@@ -20,13 +18,13 @@ def get_blog_articles(use_cache=True):
             return pd.read_csv(filename)
         
     # otherwise, scrape the data from codeup.com
-    print('Gathering blog articles from codeup.com...')
+    print('Reading blog articles from codeup.com...')
     
     articles = []
 
     # go to blog homepage
     url = 'https://codeup.com/blog/'
-    headers = {'user-agent': 'Kalpana Data Science Cohort'}
+    headers = {'user-agent': 'Innis Data Science Cohort'}
     response = get(url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -89,15 +87,12 @@ def get_blog_articles(use_cache=True):
     print(f'{page_counter} pages scraped. No more pages available.')
     
     articles = pd.DataFrame(articles)
-    
+
     # cache local copy
     print('Writing to local CSV...')
     articles.to_csv(filename, index=False)
-    print('Writing to local CSV complete.')
     
     return articles
-
-
 
 def get_news_articles(categories=['business', 'sports', 
                                   'technology', 'entertainment'], 
